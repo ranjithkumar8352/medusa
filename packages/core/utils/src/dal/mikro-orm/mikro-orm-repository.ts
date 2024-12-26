@@ -967,7 +967,8 @@ export function mikroOrmBaseRepositoryFactory<const T extends object>(
             if (skipUpdate) {
               return
             }
-            await manager.nativeUpdate(entityName, { id: data.id }, data)
+            const entity = manager.assign(existingEntity, data)
+            manager.persist(entity)
             performedActions.updated[entityName] ??= []
             performedActions.updated[entityName].push({ id: data.id })
           } else {
